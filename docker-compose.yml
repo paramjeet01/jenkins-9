@@ -7,8 +7,8 @@ services:
                         context: ./php
                         dockerfile: Dockerfile
                 environment:
-                        DB_USER: $DB_USER                    # HOST ENV AS DOCKER ENV
-                        DB_PASS: $DB_PASS
+                        DB_USER: ${DB_USER}                # HOST ENV AS DOCKER ENV
+                        DB_PASS: ${DB_PASS}
                 depends_on:
                         - db
                 volumes:
