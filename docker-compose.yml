@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+
+        web:                                                       # WEB SERVICE - PHP:APACHE 
+                build:
+                        context: ./php
+                        dockerfile: Dockerfile
+                environment:
+                        DB_USER: "${DB_USER}"                      # HOST ENV AS DOCKER ENV
+                        DB_PASS: "${DB_PASS}"
+                depends_on:
+                        - db
+                volumes:
+                        - ./php:/var/www/html/
+                ports:
+                        - 8000:80                                  # EXPOSED PORT 8000
+
+
+        db:
+                image: mysql:latest                                                    # DB SERVICE - MYSQL
+                command: --default-authentication-plugin=mysql_native_password
+                environment:
+                        MYSQL_ROOT_PASSWORD_FILE: /run/secrets/MYSQL_ROOT_PASSWORD     # ENV INJECTED SECRETS
+                        MYSQL_DATABASE_FILE: /run/secrets/MYSQL_DATABASE
+                        MYSQL_USER_FILE: /run/secrets/MYSQL_USER
+                        MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PASSWORD
+                ports:
+                        - 6033:3306                                                   # EXPOSED PORT 6033
+                secrets:
+                        - MYSQL_ROOT_PASSWORD
+                        - MYSQL_PASSWORD
+                        - MYSQL_USER
+                        - MYSQL_DATABASE
+
+secrets:                                                                              # SECRET FILES
+     MYSQL_ROOT_PASSWORD:
+             file: MYSQL_ROOT_PASSWORD.txt
+     MYSQL_PASSWORD:
+             file: MYSQL_PASSWORD.txt
+     MYSQL_USER:
+             file: MYSQL_USER.txt
+     MYSQL_DATABASE:
+             file: MYSQL_DATABASE.txt
