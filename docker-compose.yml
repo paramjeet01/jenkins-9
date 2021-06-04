@@ -7,17 +7,14 @@ services:
                         context: ./php
                         dockerfile: Dockerfile
                 environment:
-                        DB_USER: /run/secrets/MYSQL_USER                     # HOST ENV AS DOCKER ENV
-                        DB_PASS: /run/secrets/MYSQL_PASSWORD
+                        DB_USER: $DB_USER                    # HOST ENV AS DOCKER ENV
+                        DB_PASS: $DB_PASS
                 depends_on:
                         - db
                 volumes:
                         - ./php:/var/www/html/
                 ports:
                         - 8000:80                                  # EXPOSED PORT 8000
-                secrets:
-                        - MYSQL_PASSWORD
-                        - MYSQL_USER
 
         db:
                 image: mysql:latest                                                    # DB SERVICE - MYSQL
