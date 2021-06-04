@@ -1,6 +1,6 @@
 <?php
 
-$host = '127.0.0.1';                               // HOSTNAME
+$host = 'db';                               // HOSTNAME
 $user = getenv('DB_USER');                  // USERNAME FROM ENV
 $password = getenv('DB_PASS');              // PASSWORD FROM ENV
 echo $user;
